@@ -751,7 +751,7 @@
        
     if (!toolBarTitle) {
          NSLog(@"not : %@", title);
-        toolBarTitle = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(toolBarTitleClicked)];
+        toolBarTitle = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(toolBarButtonTapped:)];
     } else {
          NSLog(@"is: %@", title);
         toolBarTitle.title = title;
