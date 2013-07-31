@@ -118,7 +118,7 @@
  * @param arguments unused
  * @param options unused
  */
-- (void)createTabBar:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)createTabBar:(CDVInvokedUrlCommand*)command
 {
     tabBar = [UITabBar new];
     [tabBar sizeToFit];
@@ -142,10 +142,10 @@
  * - \c height integer indicating the height of the tab bar (default: \c 49)
  * - \c position specifies whether the tab bar will be placed at the \c top or \c bottom of the screen (default: \c bottom)
  */
-- (void)showTabBar:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)showTabBar:(CDVInvokedUrlCommand*)command
 {
     if (!tabBar)
-        [self createTabBar:nil withDict:nil];
+        [self createTabBar:nil];
 	
 	// if we are calling this again when its shown, reset
 	if (!tabBar.hidden) {
@@ -157,6 +157,14 @@
 	
     //	CGRect offsetRect = [ [UIApplication sharedApplication] statusBarFrame];
     
+    NSDictionary *options;
+    if ([command.arguments count] > 0) {
+        options = [command.arguments objectAtIndex:0];
+    } else {
+        // pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:echo];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR] callbackId:command.callbackId];
+    }
+
     if (options) 
 	{
         height   = [[options objectForKey:@"height"] floatValue];
@@ -216,7 +224,7 @@
  * @param arguments unused
  * @param options unused
  */
-- (void)resizeTabBar:(NSArray*)arguments withDict:(NSDictionary*)options {
+- (void)resizeTabBar:(CDVInvokedUrlCommand*)command {
     
     //DLog(@"TabBar Resizing");
     
@@ -248,10 +256,10 @@
  * @param arguments unused
  * @param options unused
  */
-- (void)hideTabBar:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)hideTabBar:(CDVInvokedUrlCommand*)command
 {
     if (!tabBar)
-        [self createTabBar:nil withDict:nil];
+        [self createTabBar:nil];
     tabBar.hidden = YES;
 	
     NSNotification* notif = [NSNotification notificationWithName:@"CDVLayoutSubviewRemoved" object:tabBar];
@@ -314,15 +322,23 @@
  * @param options Options for customizing the individual tab item
  *  - \c badge value to display in the optional circular badge on the item; if nil or unspecified, the badge will be hidden
  */
-- (void)createTabBarItem:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)createTabBarItem:(CDVInvokedUrlCommand*)command
 {
     if (!tabBar)
-        [self createTabBar:nil withDict:nil];
+        [self createTabBar:nil];
     
-    NSString  *name      = [arguments objectAtIndex:0];
-    NSString  *title     = [arguments objectAtIndex:1];
-    NSString  *imageName = [arguments objectAtIndex:2];
-    int tag              = [[arguments objectAtIndex:3] intValue];
+    NSDictionary *options;
+    if ([command.arguments count] > 0) {
+        options = [command.arguments objectAtIndex:0];
+    } else {
+        // pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:echo];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR] callbackId:command.callbackId];
+    }
+
+    NSString  *name      = [command.arguments objectAtIndex:1];
+    NSString  *title     = [command.arguments objectAtIndex:2];
+    NSString  *imageName = [command.arguments objectAtIndex:3];
+    int tag              = [[command.arguments objectAtIndex:4] intValue];
     
     UITabBarItem *item = nil;    
     if ([imageName length] > 0) {
@@ -363,12 +379,20 @@
  * @param options Options for customizing the individual tab item
  *  - \c badge value to display in the optional circular badge on the item; if nil or unspecified, the badge will be hidden
  */
-- (void)updateTabBarItem:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)updateTabBarItem:(CDVInvokedUrlCommand*)command
 {
     if (!tabBar)
-        [self createTabBar:nil withDict:nil];
+        [self createTabBar:nil];
     
-    NSString  *name = [arguments objectAtIndex:0];
+    NSDictionary *options;
+    if ([command.arguments count] > 1) {
+        options = [command.arguments objectAtIndex:0];
+    } else {
+        // pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:echo];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR] callbackId:command.callbackId];
+    }
+
+    NSString  *name = [command.arguments objectAtIndex:1];
     UITabBarItem *item = [tabBarItems objectForKey:name];
     if (item)
         item.badgeValue = [options objectForKey:@"badge"];
@@ -384,15 +408,23 @@
  * @see createTabBarItem
  * @see createTabBar
  */
-- (void)showTabBarItems:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)showTabBarItems:(CDVInvokedUrlCommand*)command
 {
     if (!tabBar)
-        [self createTabBar:nil withDict:nil];
+        [self createTabBar:nil];
     
-    int i, count = [arguments count];
+    NSDictionary *options;
+    if ([command.arguments count] > 0) {
+        options = [command.arguments objectAtIndex:0];
+    } else {
+        // pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:echo];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR] callbackId:command.callbackId];
+    }
+
+    int i, count = [command.arguments count];
     NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:count];
-    for (i = 0; i < count; i++) {
-        NSString *itemName = [arguments objectAtIndex:i];
+    for (i = 1; i < count; i++) {
+        NSString *itemName = [command.arguments objectAtIndex:i];
         UITabBarItem *item = [tabBarItems objectForKey:itemName];
         if (item)
             [items addObject:item];
@@ -413,12 +445,12 @@
  * @see createTabBarItem
  * @see showTabBarItems
  */
-- (void)selectTabBarItem:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)selectTabBarItem:(CDVInvokedUrlCommand*)command
 {
     if (!tabBar)
-        [self createTabBar:nil withDict:nil];
+        [self createTabBar:nil];
     
-    NSString *itemName = [arguments objectAtIndex:0];
+    NSString *itemName = [command.arguments objectAtIndex:0];
     UITabBarItem *item = [tabBarItems objectForKey:itemName];
     if (item)
         tabBar.selectedItem = item;
@@ -441,7 +473,8 @@
 
 /*********************************************************************************/
 
--(void) createNavBar:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
+
+-(void) createNavBar:(CDVInvokedUrlCommand*)command
 {
     if (!navBar)
     {
@@ -459,11 +492,11 @@
     
 }
 
-- (void)setupLeftNavButton:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)setupLeftNavButton:(CDVInvokedUrlCommand*)command
 {
-    NSString * title = [arguments objectAtIndex:0];
-    NSString * logoURL = [arguments objectAtIndex:1];
-    [self setLeftNavBarCallbackId:[arguments objectAtIndex:2]];
+    NSString * title = [command.arguments objectAtIndex:0];
+    NSString * logoURL = [command.arguments objectAtIndex:1];
+    [self setLeftNavBarCallbackId:[command.arguments objectAtIndex:2]];
     
     if (title && title != @"")
     {
@@ -482,11 +515,11 @@
     }
     
 }
-- (void)setupRightNavButton:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)setupRightNavButton:(CDVInvokedUrlCommand*)command
 {
-    NSString * title = [arguments objectAtIndex:0];
-    NSString * logoURL = [arguments objectAtIndex:1];
-    [self setRightNavBarCallbackId:[arguments objectAtIndex:2]];
+    NSString * title = [command.arguments objectAtIndex:0];
+    NSString * logoURL = [command.arguments objectAtIndex:1];
+    [self setRightNavBarCallbackId:[command.arguments objectAtIndex:2]];
     
     if (title && title != @"")
     {
@@ -507,25 +540,25 @@
     
 }
 
-- (void)hideLeftNavButton:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)hideLeftNavButton:(CDVInvokedUrlCommand*)command
 {
     
     [[navBarController navItem] setLeftBarButtonItem:nil];
     
 }
-- (void)showLeftNavButton:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)showLeftNavButton:(CDVInvokedUrlCommand*)command
 {
     
     [[navBarController navItem] setLeftBarButtonItem:[navBarController leftButton]];
     
 }
-- (void)hideRightNavButton:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)hideRightNavButton:(CDVInvokedUrlCommand*)command
 {
     
     [[navBarController navItem] setRightBarButtonItem:nil];
     
 }
-- (void)showRightNavButton:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)showRightNavButton:(CDVInvokedUrlCommand*)command
 {
     
     [[navBarController navItem] setRightBarButtonItem:[navBarController rightButton]];
@@ -546,10 +579,10 @@
     
 }
 
--(void) showNavBar:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
+-(void) showNavBar:(CDVInvokedUrlCommand*)command
 {
     if (!navBar)
-        [self createNavBar:nil withDict:nil];
+        [self createNavBar:nil];
     
     if ([navBar isHidden])
     {
@@ -561,7 +594,7 @@
 }
 
 
--(void) hideNavBar:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
+-(void) hideNavBar:(CDVInvokedUrlCommand*)command
 {
     if (navBar && ![navBar isHidden])
     {
@@ -571,11 +604,11 @@
     
 }
 
--(void) setNavBarTitle:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
+-(void) setNavBarTitle:(CDVInvokedUrlCommand*)command
 {
     if (navBar)
     {
-        NSString  *name = [arguments objectAtIndex:0];
+        NSString  *name = [command.arguments objectAtIndex:0];
         [navBarController navItem].title = name;
         
         // Reset otherwise overriding logo reference
@@ -583,10 +616,10 @@
     }
 }
 
--(void) setNavBarLogo:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options
+-(void) setNavBarLogo:(CDVInvokedUrlCommand*)command
 {
     
-    NSString * logoURL = [arguments objectAtIndex:0];
+    NSString * logoURL = [command.arguments objectAtIndex:0];
     UIImage * image = nil;
     
     if (logoURL && logoURL != @"")
@@ -1008,11 +1041,17 @@
 #pragma mark -
 #pragma mark ActionSheet
 
-- (void)createActionSheet:(NSArray*)arguments withDict:(NSDictionary*)options
+- (void)createActionSheet:(CDVInvokedUrlCommand*)command
 {
-    
+    NSDictionary *options;
+    if ([command.arguments count] > 1) {
+        options = [command.arguments objectAtIndex:0];
+    } else {
+        // pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:echo];
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR] callbackId:command.callbackId];
+    }
+
 	NSString* title = [options objectForKey:@"title"];
-    
 	
 	UIActionSheet* actionSheet = [ [UIActionSheet alloc ] 
                                   initWithTitle:title 
@@ -1022,10 +1061,10 @@
                                   otherButtonTitles:nil
                                   ];
 	
-	int count = [arguments count];
-	for(int n = 0; n < count; n++)
+	int count = [command.arguments count];
+	for(int n = 1; n < count; n++)
 	{
-		[ actionSheet addButtonWithTitle:[arguments objectAtIndex:n]];
+		[ actionSheet addButtonWithTitle:[command.arguments objectAtIndex:n]];
 	}
 	
 	if([options objectForKey:@"cancelButtonIndex"])

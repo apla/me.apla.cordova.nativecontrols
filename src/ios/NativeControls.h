@@ -43,31 +43,31 @@
 
 /* Tab Bar methods
  */
-- (void)createTabBar:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)showTabBar:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)resizeTabBar:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)hideTabBar:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)showTabBarItems:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)createTabBarItem:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)updateTabBarItem:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)selectTabBarItem:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)createTabBar:(CDVInvokedUrlCommand*)command;
+- (void)showTabBar:(CDVInvokedUrlCommand*)command;
+- (void)resizeTabBar:(CDVInvokedUrlCommand*)command;
+- (void)hideTabBar:(CDVInvokedUrlCommand*)command;
+- (void)showTabBarItems:(CDVInvokedUrlCommand*)command;
+- (void)createTabBarItem:(CDVInvokedUrlCommand*)command;
+- (void)updateTabBarItem:(CDVInvokedUrlCommand*)command;
+- (void)selectTabBarItem:(CDVInvokedUrlCommand*)command;
 
 /* Nav Bar methods
  */
-- (void)createNavBar:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)setNavBarTitle:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options;
-- (void)setNavBarLogo:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options;
-- (void)showNavBar:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)hideNavBar:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)setupLeftNavButton:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)setupRightNavButton:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)createNavBar:(CDVInvokedUrlCommand*)command;
+- (void)setNavBarTitle:(CDVInvokedUrlCommand*)command;
+- (void)setNavBarLogo:(CDVInvokedUrlCommand*)command;
+- (void)showNavBar:(CDVInvokedUrlCommand*)command;
+- (void)hideNavBar:(CDVInvokedUrlCommand*)command;
+- (void)setupLeftNavButton:(CDVInvokedUrlCommand*)command;
+- (void)setupRightNavButton:(CDVInvokedUrlCommand*)command;
 - (void)leftNavButtonTapped;
 - (void)rightNavButtonTapped;
 
-- (void)hideLeftNavButton:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)showRightNavButton:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)hideLeftNavButton:(NSArray*)arguments withDict:(NSDictionary*)options;
-- (void)showRightNavButton:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)hideLeftNavButton:(CDVInvokedUrlCommand*)command;
+- (void)showRightNavButton:(CDVInvokedUrlCommand*)command;
+- (void)hideLeftNavButton:(CDVInvokedUrlCommand*)command;
+- (void)showRightNavButton:(CDVInvokedUrlCommand*)command;
 
 /* Tool Bar methods
  */
@@ -80,7 +80,7 @@
 
 /* ActionSheet
  */
-- (void)createActionSheet:(NSArray*)arguments withDict:(NSDictionary*)options;
+- (void)createActionSheet:(CDVInvokedUrlCommand*)command;
 
 
 @end
