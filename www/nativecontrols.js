@@ -313,7 +313,7 @@ NativeControls.prototype.createToolBarItem = function(name , title , image , opt
     }
         //modify the NativeControls.m to change the options quickly
         // the instance name on the plugin can be passed with option for now it is hardcode in objc // Emile
-    cordova.exec(null, null, "NativeControls", "createToolBarItem" , [name, title, image]);
+    cordova.exec(null, null, "NativeControls", "createToolBarItem" , [toolBarIndex, title || '', image || '', options.style || '']);
 };
  
 /**
