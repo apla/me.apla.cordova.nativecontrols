@@ -329,7 +329,7 @@ NativeControls.prototype.toolBarButtonTapped = function(tag)
  
 
 
-NativeControls.prototype.createActionSheet = function(buttonTitles,actionSheetTitle,cancelButtonIndex,destructiveButtonIndex)
+NativeControls.prototype.createActionSheet = function(buttons,actionSheetTitle,cancelButtonIndex,destructiveButtonIndex)
 {
 	var options = {};
 	
@@ -346,20 +346,23 @@ NativeControls.prototype.createActionSheet = function(buttonTitles,actionSheetTi
 		options.destructiveButtonIndex = destructiveButtonIndex;
 	}
 
+    this.actionSheetDelegate = {};
 	var params = [null, null, "NativeControls", "createActionSheet", [options]];
-    for (var i = 0; i < buttonTitles.length; i++) 
+    for (var i = 0; i < buttons.length; i++) 
 	{
-        params[4].push(buttonTitles[i]);
+        params[4].push(buttons[i].title);
+        if (buttons[i].cb && typeof buttons[i].cb == 'function')
+            this.actionSheetDelegate[i] = {onActionSheetDismissed: buttons[i].cb}
     }
+
     cordova.exec.apply(this, params);
 	
-	this.actionSheetDelegate = {};
-	return this.actionSheetDelegate;
+	// return this.actionSheetDelegate;
 }
 
 NativeControls.prototype._onActionSheetDismissed = function(index)
 {
-	this.actionSheetDelegate.onActionSheetDismissed(index);
+	this.actionSheetDelegate[index].onActionSheetDismissed();
 }
 
 cordova.addConstructor(function()

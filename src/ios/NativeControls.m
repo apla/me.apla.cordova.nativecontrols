@@ -1077,7 +1077,12 @@
 	}
 	
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;//UIActionSheetStyleBlackOpaque;
-    [actionSheet showInView:self.webView.superview];
+    // [self.commandDelegate runInBackground:^{
+        [actionSheet showInView:self.webView.superview];
+        // CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        // The sendPluginResult method is thread-safe.
+        // [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    // }];
     // [actionSheet release];
 	
 }
