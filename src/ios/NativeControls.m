@@ -755,7 +755,12 @@
     } else {
          NSLog(@"is: %@", title);
         toolBarTitle.title = title;
+	}
+	if (!toolBarItems) {
+        toolBarItems = [[NSMutableArray alloc] initWithCapacity:1];
     }
+   
+    [toolBarItems insertObject:toolBarTitle atIndex:[toolBarItems count]];
 }
 
 /**
