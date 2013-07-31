@@ -11,6 +11,19 @@ and
 https://github.com/zSprawl/NativeControls
 
 
+currently tested only toolbar and actionsheet.
+
+probably, this navbar is better than navbar from zsprawl:
+
+https://github.com/sauliuz/phonegapplugs-navbar
+
+native header and footer for android:
+
+https://github.com/nax83/NativeGap
+
+probably good start to develop nativecontrols for wp7/8
+
+https://github.com/telerik/xaml-sdk
 
 To install this plugin, follow the [Command-line Interface Guide](http://cordova.apache.org/docs/en/edge/guide_cli_index.md.html#The%20Command-line%20Interface).
 
