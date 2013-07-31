@@ -14,6 +14,7 @@ function NativeControls() {
     this.tabBarTag = 0;
     this.tabBarCallbacks = {};
     this.selectedTabBarItem = null;
+    this.toolBarCallbacks = {};
 }
 
 NativeControls.prototype.resizeTabBar = function() {
