@@ -305,13 +305,14 @@ NativeControls.prototype.showToolBar = function() {
  */
 NativeControls.prototype.createToolBarItem = function(name , title , image , options) {
         var toolBarIndex = this.toolBarIndexes++;
+        if (!options) options = {};
         if (options && 'onTap' in options && typeof(options['onTap']) == 'function') {
         this.toolBarCallbacks[toolBarIndex] = {'onTap':options.onTap,'name':name};
         //delete options.onSelect;
     }
         //modify the NativeControls.m to change the options quickly
         // the instance name on the plugin can be passed with option for now it is hardcode in objc // Emile
-    cordova.exec(null, null, "NativeControls", "createToolBarItem" , [name , title , image , options]);
+    cordova.exec(null, null, "NativeControls", "createToolBarItem" , [name, title, image]);
 };
  
 /**

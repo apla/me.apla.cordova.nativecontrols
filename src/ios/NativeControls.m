@@ -835,11 +835,9 @@
     {
         style    = [command.arguments objectAtIndex:3];
     }
-    else 
-    {
-        style = @"UIBarButtonItemStylePlain";
-    }
     
+    if (!style)
+        style = @"UIBarButtonItemStylePlain";
 
     UIBarButtonItemStyle useStyle;
 
