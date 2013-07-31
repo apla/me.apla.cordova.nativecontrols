@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
-           id="me.apla.nativecontrols"
-      version="0.1.1">
+           id="me.apla.cordova.nativecontrols"
+      version="0.1.5">
     <name>NativeControls</name>
     <description>Native Controls Plugin</description>
     <license>Apache</license>
-    <keywords>cordova,tabbar,toolbar</keywords>
+    <keywords>cordova,tabbar,toolbar,navbar</keywords>
 
     <js-module src="www/nativecontrols.js" name="nativecontrols">
         <clobbers target="nativecontrols" />
