@@ -311,7 +311,7 @@ NativeControls.prototype.createToolBarItem = function(name , title , image , opt
     }
         //modify the NativeControls.m to change the options quickly
         // the instance name on the plugin can be passed with option for now it is hardcode in objc // Emile
-    cordova.exec(null, null, "NativeControls", "createToolBarItem" , name , title , image , options );
+    cordova.exec(null, null, "NativeControls", "createToolBarItem" , [name , title , image , options]);
 };
  
 /**
@@ -344,12 +344,12 @@ NativeControls.prototype.createActionSheet = function(buttonTitles,actionSheetTi
 		options.destructiveButtonIndex = destructiveButtonIndex;
 	}
 
-	var params = [null, null, "NativeControls", "createActionSheet",options ];
+	var params = [null, null, "NativeControls", "createActionSheet", [options]];
     for (var i = 0; i < buttonTitles.length; i++) 
 	{
-        params.push(buttonTitles[i]);
+        params[4].push(buttonTitles[i]);
     }
-    Cordova.exec.apply(this, params);
+    cordova.exec.apply(this, params);
 	
 	this.actionSheetDelegate = {};
 	return this.actionSheetDelegate;
